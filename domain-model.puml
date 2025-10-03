@@ -1,0 +1,24 @@
+@startuml
+title Student Course Management System - Domain Model
+
+class Student {
+  - studentId : Long
+  - name : String
+  - email : String
+}
+
+class Course {
+  - courseId : Long
+  - courseName : String
+  - credits : int
+}
+
+class Enrollment {
+  - enrollmentId : Long
+  - enrollmentDate : LocalDate
+}
+
+Student "1" --> "0..*" Enrollment : takes
+Course "1" --> "0..*" Enrollment : has
+
+@enduml
