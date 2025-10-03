@@ -1,9 +1,11 @@
 package snakayima.miu.edu.studentcoursemanagementsystem.Service;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import snakayima.miu.edu.studentcoursemanagementsystem.Model.Enrollment;
 import snakayima.miu.edu.studentcoursemanagementsystem.Repository.EnrollmentRepository;
 import java.util.List;
 
+@Service
 public class EnrollmentServiceImpl implements EnrollmentService {
 
     private final EnrollmentRepository enrollmentRepository;

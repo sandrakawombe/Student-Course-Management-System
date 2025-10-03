@@ -1,5 +1,6 @@
 package snakayima.miu.edu.studentcoursemanagementsystem.Service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import snakayima.miu.edu.studentcoursemanagementsystem.Model.Student;
 import snakayima.miu.edu.studentcoursemanagementsystem.Repository.StudentRepository;
