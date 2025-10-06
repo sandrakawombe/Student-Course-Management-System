@@ -1,0 +1,43 @@
+@startuml
+title Student Course Management System - Software Architecture
+
+package "Presentation Layer" {
+  [Spring Boot REST Controllers]
+  note right
+    Technologies:
+    - Spring Web
+    - JSON REST API
+  end note
+}
+
+package "Business Logic Layer" {
+  [Service Implementations]
+  note right
+    Technologies:
+    - Java 23
+    - Spring Boot
+  end note
+}
+
+package "Data Access Layer" {
+  [Spring Data JPA Repositories]
+  note right
+    Technologies:
+    - Spring Data JPA
+  end note
+}
+
+package "Persistence Layer" {
+  [H2 Database]
+  note right
+    Technologies:
+    - Hibernate ORM
+    - H2 In-Memory DB
+  end note
+}
+
+[Spring Boot REST Controllers] --> [Service Implementations]
+[Service Implementations] --> [Spring Data JPA Repositories]
+[Spring Data JPA Repositories] --> [H2 Database]
+
+@enduml
