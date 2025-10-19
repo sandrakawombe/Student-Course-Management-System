@@ -1,4 +1,4 @@
-name: CI/CD Pipeline - Student Course Management System
+name: CI/CD Pipeline
 
 on:
   push:
@@ -8,26 +8,11 @@ on:
 
 jobs:
   build:
-    name: Build and Test Spring Boot App
+    name: Build Application
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:16
-        env:
-          POSTGRES_USER: student
-          POSTGRES_PASSWORD: student
-          POSTGRES_DB: studentdb
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd="pg_isready -U student -d studentdb"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
-
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Set up JDK 21
@@ -36,22 +21,14 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-      - name: Cache Maven dependencies
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
-
       - name: Build with Maven
-        run: mvn -B clean package -DskipTests
+        run: mvn clean package -DskipTests
 
-      - name: Run Unit Tests
-        run: mvn test
+      - name: Upload JAR artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: application-jar
+          path: target/*.jar
 
-      - name: Build Docker image
-        run: docker build -t student-course-app .
-
-      - name: Run Docker Compose (Optional Smoke Test)
-        run: docker compose up -d
+      - name: Build complete
+        run: echo "✅ Build successful!

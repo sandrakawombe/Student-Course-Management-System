@@ -13,12 +13,12 @@ import java.util.List;
 @NoArgsConstructor
 public class Student {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
     private String email;
 
     @OneToMany(mappedBy = "student")
     private List<Enrollment> enrollments;
-
 }
