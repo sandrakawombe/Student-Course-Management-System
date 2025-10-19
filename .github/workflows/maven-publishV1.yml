@@ -31,4 +31,4 @@ jobs:
           path: target/*.jar
 
       - name: Build complete
-        run: echo "✅ Build successful!
+        run: echo "Build successful!
