@@ -11,10 +11,15 @@ import java.util.List;
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Long> {
 
-    //JPQL
-    @Query(value ="select c from Course c where c.courseId=:course_id")
-    List<Course> getAllCourseById(@Param("course_id") Integer id);
+    // JPQL query
+    @Query("SELECT c FROM Course c WHERE c.courseId = :course_id")
+    List<Course> getAllCourseById(@Param("course_id") Long id);
 
-    //Native Query
-    List<Course> getAllCoursesByName(String name);
+    // Derived query method - Spring Data JPA will automatically implement this
+    // Matches the 'courseName' property in Course entity
+    List<Course> findByCourseName(String courseName);
+
+    // Or if you prefer native query (both work)
+    @Query(value = "SELECT * FROM course WHERE course_name = ?1", nativeQuery = true)
+    List<Course> findCoursesByNameNative(String courseName);
 }

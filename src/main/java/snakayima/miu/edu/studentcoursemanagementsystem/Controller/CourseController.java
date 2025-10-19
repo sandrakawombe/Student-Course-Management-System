@@ -31,4 +31,9 @@ public class CourseController {
     public Course getCourseById(@PathVariable Long id) {
         return courseService.getCourseById(id);
     }
+
+    @PutMapping()
+    public Course updateCourse(@RequestBody Course course) {
+        return courseService.updateCourse(course);
+    }
 }

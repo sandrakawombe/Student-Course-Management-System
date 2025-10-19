@@ -29,4 +29,12 @@ public class CourseServiceImpl implements CourseService {
     public Course getCourseById(Long id) {
         return courseRepository.findById(id).orElse(null);
     }
+
+    public Course updateCourse(Course course) {
+        return courseRepository.save(course);
+    }
+
+    public void deleteCourseById(Long id) {
+        courseRepository.deleteById(id);
+    }
 }
