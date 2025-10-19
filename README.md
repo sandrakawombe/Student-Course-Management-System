@@ -1,1 +1,1 @@
-# Test CI/CD pipeline
+# Student Course Management System
