@@ -10,4 +10,7 @@ public interface EnrollmentService {
     List<Enrollment> getEnrollmentsByStudentId(Long studentId);
     List<Enrollment> getEnrollmentsByCourseId(Long courseId);
     void deleteEnrollment(Long id);
+    // ========== Add to EnrollmentService.java interface ==========
+    Enrollment getEnrollmentById(Long id);
+    Enrollment updateEnrollment(Enrollment enrollment);
 }

@@ -4,13 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class StudentSummaryDTO {
-    private Long id;
-    private String name;
-    private String email;
+public class TranscriptCourseDTO {
+    private String courseName;
+    private Integer credits;
+    private String grade;
+    private String status;
     private String enrollmentDate;
 }

@@ -87,4 +87,23 @@ public class EnrollmentServiceImpl implements EnrollmentService {
                 .orElseThrow(() -> new ResourceNotFoundException("Enrollment", id));
         enrollmentRepository.delete(enrollment);
     }
+
+    @Override
+    public Enrollment getEnrollmentById(Long id) {
+        return enrollmentRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Enrollment", id));
+    }
+
+//    @Override
+//    public Enrollment updateEnrollment(Enrollment enrollment) {
+//        return enrollmentRepository.save(enrollment);
+//    }
+
+    @Override
+    public Enrollment updateEnrollment(Enrollment enrollment) {
+        Enrollment updated = enrollmentRepository.save(enrollment);
+        enrollmentRepository.flush(); // ✅ ensure DB commit before returning
+        return updated;
+    }
+
 }

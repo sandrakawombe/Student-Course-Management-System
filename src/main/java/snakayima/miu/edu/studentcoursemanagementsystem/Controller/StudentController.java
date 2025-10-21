@@ -10,7 +10,6 @@ import snakayima.miu.edu.studentcoursemanagementsystem.Service.StudentService;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 @RestController
 @RequestMapping("/students")
 public class StudentController {
@@ -21,11 +20,6 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    /**
-     * GET /students
-     * Optional query param: includeEnrollments (default: false)
-     * Example: GET /students?includeEnrollments=true
-     */
     @GetMapping
     public ResponseEntity<List<StudentDTO>> getAllStudents(
             @RequestParam(defaultValue = "false") boolean includeEnrollments) {
@@ -37,11 +31,6 @@ public class StudentController {
         return ResponseEntity.ok(students);
     }
 
-    /**
-     * POST /students
-     * Body: {"name": "John Doe", "email": "john@example.com"}
-     * Returns: StudentDTO (without enrollments)
-     */
     @PostMapping
     public ResponseEntity<StudentDTO> addStudent(@RequestBody Student student) {
         Student savedStudent = studentService.addStudent(student);
@@ -49,11 +38,6 @@ public class StudentController {
                 .body(EntityMapper.toStudentDTO(savedStudent, false));
     }
 
-    /**
-     * GET /students/{id}
-     * Optional query param: includeEnrollments (default: true)
-     * Example: GET /students/1?includeEnrollments=true
-     */
     @GetMapping("/{id}")
     public ResponseEntity<StudentDTO> getStudentById(
             @PathVariable Long id,
@@ -63,11 +47,6 @@ public class StudentController {
         return ResponseEntity.ok(EntityMapper.toStudentDTO(student, includeEnrollments));
     }
 
-    /**
-     * PUT /students/{id}
-     * Body: {"name": "Updated Name", "email": "updated@example.com"}
-     * Returns: StudentDTO (without enrollments)
-     */
     @PutMapping("/{id}")
     public ResponseEntity<StudentDTO> updateStudent(
             @PathVariable Long id,
@@ -77,10 +56,6 @@ public class StudentController {
         return ResponseEntity.ok(EntityMapper.toStudentDTO(updated, false));
     }
 
-    /**
-     * DELETE /students/{id}
-     * Returns: 204 No Content
-     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
         studentService.deleteStudent(id);
