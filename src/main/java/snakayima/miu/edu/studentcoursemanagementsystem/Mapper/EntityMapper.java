@@ -77,11 +77,15 @@ public class EntityMapper {
         return dto;
     }
 
-    // Enrollment mappings
+    // Enrollment mappings - FIXED VERSION
     public static EnrollmentDTO toEnrollmentDTO(Enrollment enrollment) {
         EnrollmentDTO dto = new EnrollmentDTO();
         dto.setEnrollmentId(enrollment.getEnrollmentId());
         dto.setEnrollmentDate(enrollment.getEnrollmentDate());
+
+        // FIX: Add grade and status mapping
+        dto.setGrade(enrollment.getGrade() != null ? enrollment.getGrade().name() : null);
+        dto.setStatus(enrollment.getStatus() != null ? enrollment.getStatus().name() : null);
 
         // Student info without enrollments (breaks circular reference)
         StudentBasicDTO studentDTO = new StudentBasicDTO();
