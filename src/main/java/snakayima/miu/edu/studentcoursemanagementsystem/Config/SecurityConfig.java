@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -34,30 +35,24 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         // Public endpoints - Authentication
                         .requestMatchers("/api/auth/**").permitAll()
 
-                        // Public endpoints - Swagger/OpenAPI Documentation
+                        // Public endpoints - Swagger/OpenAPI
                         .requestMatchers(
-                                "/swagger-ui/**",
                                 "/v3/api-docs/**",
+                                "/swagger-ui/**",
                                 "/swagger-ui.html",
                                 "/swagger-resources/**",
                                 "/webjars/**"
                         ).permitAll()
 
-                        // Protected endpoints - Student Management
+                        // Protected endpoints
                         .requestMatchers("/students/**").hasAnyRole("ADMIN", "TEACHER")
-
-                        // Protected endpoints - Course Management
                         .requestMatchers("/courses/**").hasAnyRole("ADMIN", "TEACHER")
-
-                        // Protected endpoints - Enrollment Management
                         .requestMatchers("/enrollments/**").hasAnyRole("ADMIN", "TEACHER", "STUDENT")
-
-                        // Protected endpoints - Analytics
                         .requestMatchers("/api/analytics/**").hasAnyRole("ADMIN", "TEACHER")
 
                         // All other requests need authentication
