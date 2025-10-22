@@ -19,6 +19,11 @@ public class OpenAPIConfig {
                 .url("http://localhost:8080")
                 .description("Local Development Server");
 
+        // --- AWS Production server definition ---
+        Server awsServer = new Server()
+                .url("http://184.73.128.59:8080")
+                .description("AWS EC2 Production Server");
+
         // --- API contact information ---
         Contact contact = new Contact()
                 .name("Student Course Management Support")
@@ -34,6 +39,6 @@ public class OpenAPIConfig {
         // --- Register everything into OpenAPI ---
         return new OpenAPI()
                 .info(info)
-                .servers(List.of(localServer));
+                .servers(List.of(localServer, awsServer));
     }
 }
