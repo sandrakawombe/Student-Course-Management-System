@@ -25,8 +25,8 @@ public class SecurityConfig {
     private final CustomUserDetailsService userDetailsService;
     private final JwtAuthenticationFilter jwtAuthFilter;
 
-    public SecurityConfig(CustomUserDetailsService userDetailsService, 
-                         JwtAuthenticationFilter jwtAuthFilter) {
+    public SecurityConfig(CustomUserDetailsService userDetailsService,
+                          JwtAuthenticationFilter jwtAuthFilter) {
         this.userDetailsService = userDetailsService;
         this.jwtAuthFilter = jwtAuthFilter;
     }
@@ -34,25 +34,40 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(auth -> auth
-                // Public endpoints
-                .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
-                
-                // Admin only endpoints
-                .requestMatchers("/students/**").hasAnyRole("ADMIN", "TEACHER")
-                .requestMatchers("/courses/**").hasAnyRole("ADMIN", "TEACHER")
-                .requestMatchers("/enrollments/**").hasAnyRole("ADMIN", "TEACHER", "STUDENT")
-                
-                // All other requests need authentication
-                .anyRequest().authenticated()
-            )
-            .sessionManagement(session -> session
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            )
-            .authenticationProvider(authenticationProvider())
-            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth -> auth
+                        // Public endpoints - Authentication
+                        .requestMatchers("/api/auth/**").permitAll()
+
+                        // Public endpoints - Swagger/OpenAPI Documentation
+                        .requestMatchers(
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/swagger-ui.html",
+                                "/swagger-resources/**",
+                                "/webjars/**"
+                        ).permitAll()
+
+                        // Protected endpoints - Student Management
+                        .requestMatchers("/students/**").hasAnyRole("ADMIN", "TEACHER")
+
+                        // Protected endpoints - Course Management
+                        .requestMatchers("/courses/**").hasAnyRole("ADMIN", "TEACHER")
+
+                        // Protected endpoints - Enrollment Management
+                        .requestMatchers("/enrollments/**").hasAnyRole("ADMIN", "TEACHER", "STUDENT")
+
+                        // Protected endpoints - Analytics
+                        .requestMatchers("/api/analytics/**").hasAnyRole("ADMIN", "TEACHER")
+
+                        // All other requests need authentication
+                        .anyRequest().authenticated()
+                )
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                .authenticationProvider(authenticationProvider())
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

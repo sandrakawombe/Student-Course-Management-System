@@ -1,6 +1,7 @@
 package snakayima.miu.edu.studentcoursemanagementsystem.Model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,7 @@ public class Enrollment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long enrollmentId;
 
+    @NotNull(message = "Enrollment date must not be null")
     private LocalDate enrollmentDate;
 
     @Enumerated(EnumType.STRING)
